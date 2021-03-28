@@ -1,0 +1,64 @@
+compartir disco en linux.txt
+
+instalamos Samba:
+
+sudo apt-get install samba
+
+Configurar Samba para compartir en red
+
+tendremos que editar el archivo smb.conf, lo cual podremos hacer
+con nuestro editor favorito (en mi caso nano):
+
+sudo nano /etc/samba/smb.conf 
+
+Este archivo contiene varios parámetros de configuración,
+por ejemplo si lo recorremos, llegaremos a la línea
+
+## Browsing/Identification ###
+# Change this to the workgroup/NT-domain name your Samba server will part of
+workgroup = MYTHOS
+Aquí podemos cambiar o establecer un nombre del grupo de trabajo,
+en caso de estar usando alguno.
+
+nos desplazaremos a la parte final del archivo, donde podremos agregar algo como:
+
+[Data] # Un nombre para identificar nuestro disco en la red
+        comment = Disco de Data # comentario/descripción
+        path = /media/data # ubicacion del recurso que deseamos compartir
+        #valid users = @users, @nas # lista de usuarios válidos. ( ejm. @administrators, @users, administrator ). Aquellos que empiezan con una arroba @ son grupos.
+        writeable = yes # permitirá la escritura
+        browseable = yes # permitirá la navegación
+        #read list = @users, @nas # lista de usuarios y grupos que podrán escribir en el recurso.
+        #write list = @users, @nas # lista de usuarios y grupos que podrán escribir en el recurso.
+
+        guest ok = yes # permitirá usuarios invitado
+
+otro ejemplo....
+[Data]
+comment = Disco de Data
+path = /media/data
+writeable = yes
+browseable = yes
+read only = no
+guest ok = yes
+
+luego guardamos
+
+
+Una vez cambiados los parámetros, daremos permiso de escritura a nuestra unidad para que cualquiera pueda escribir en ella:
+
+sudo chmod 777 /media/data
+
+Realizado esto, podemos reiniciar nuestro servicio:
+
+sudo /etc/init.d/samba restart
+
+Finalmente, se debe agregar al usuario que se autentificará en la red. Si usamos un usuario que ya exista en nuestro sistema linux, entonces únicamente lo agregamos al entorno de samba de la siguiente manera
+
+sudo smbpasswd -a usuario
+
+Se nos pedirá ingresar un password dos veces y reiniciamos el servicio:
+
+sudo service smbd stop
+sudo service smbd start
+

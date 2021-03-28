@@ -1,0 +1,37 @@
+crear repositorio
+
+Vamos a la carpeta del proyecto
+iniciamos terminal desde la carpeta
+
+git init
+
+git status -s   //nos lista los archivos y directorios del proyecto
+
+git add nombre archivo  // a partir de ahora hace un seguimiento del archivo
+git add .    //agrega todos los archivos del proyecto
+
+git commit -m "aca va la descripcion de la insantanea"   //hace una instantanea del proyecto (respaldo)
+
+puede pedir user name y email
+
+git config --global user.username "nombre usuario"
+git config --global user.email "email"
+
+si hago un cambio al archivo, promero debo agregarlo nuevamente y despues un commit
+git add nombre archivo
+git commit -m "descripcion nueva"
+
+git log --oneline    //me da una lista de instantaneas
+
+git reset --hard codigo instantanea     // restaura auna instantanea anterior 
+
+
+
+
+
+
+
+
+
+
+
